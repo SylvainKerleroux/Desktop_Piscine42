@@ -1,0 +1,5 @@
+Credentials cache: API:A7DE610B-4716-44B6-ADD1-C7933280EB12
+        Principal: skerlero@42.FR
+
+  Issued                Expires               Principal
+Jul 30 11:55:27 2018  Aug  6 11:55:27 2018  krbtgt/42.FR@42.FR
