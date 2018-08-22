@@ -1,0 +1,74 @@
+function cd()
+{
+	builtin cd "$@" && ls
+}
+
+functionn mkdir() {
+    command mkdir "$@" && builtin cd "$@" && pwd && echo "Empty directory created ..."
+}
+function rm()
+{
+	command rm "$@" && ls 
+}
+
+function push ()
+{
+	git add . && git commit -m "$@" && git push
+}
+
+function comp()
+{
+	echo "NORME :" && norminette -R CheckForbiddenSourceHeader && echo "\nCOMPILE : \n" && gcc -Wall -Wextra -Werror "$@" 
+}
+
+function norm()
+{
+	echo "NORME :" && norminette -R CheckForbiddenSourceHeader
+}
+
+function normi()
+{
+	echo "NORME for .h :\n" && norminette
+}
+
+
+#
+# Prepare files for vlogsphere push :
+# - Cleans a.out
+# - Cleans #include
+# - Cleans printf 
+# - Norm report
+#
+function prep()
+{
+	name="$(basename $(pwd))"
+
+  echo "BACKING UP desktop TO GITHUB...\n"
+  git add -A && git commit -m "Pushing to vlogsphere $$" && git push 
+
+  echo "\nCREATING DIRECTORY $name AT ~/VLOG ..."
+  command rm -r ~/VLOG/$name
+  command mkdir ~/VLOG/$name
+
+  echo "\nCOPYING ALL .ex* FILES TO ~/VLOG/$name..."
+  cp -r ex* ~/VLOG/$name
+
+  command cd ~/VLOG/$name
+	
+  echo "\nDELETING ALL  a.out FILES FROM FOLDERS AND ROOT..."
+  find ~/VLOG/$name -name 'a.out' -type f -delete
+
+  #echo "DELETING ALL include LINES FROM ALL .c FILES..."
+  #for files in ~/VLOG/$name/*/*.c ; do
+  #    grep -v include  $files > $files.tmp
+  #    mv $files.tmp $files
+  #done
+
+  echo "DELETING ALL printf LINES FROM ALL .c FILES..."
+  for files in ~/VLOG/$name/*/*.c; do
+	  grep -v "printf" $files > $files.tmp
+	  mv $files.tmp $files
+  done
+  echo "NORME :" && norminette -R CheckForbiddenSourceHeader ~/VLOG/$name
+  echo "INITIAL PUSH TO VLOGSPHERE - NOT IMPLEMENTED" 
+}
