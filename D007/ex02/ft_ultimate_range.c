@@ -31,16 +31,9 @@ int		ft_ultimate_range(int **range, int min, int max)
 
 int		main(void)
 {
-	int 	**table;
+	int 	*table;
 	int		i;
 
-	ft_ultimate_range(table, 2, 6);
-
-	printf("%d\n", table[0][0]);
-	printf("%d\n", table[0][1]);
-	printf("%d\n", table[0][2]);
-	printf("%d\n", table[0][3]);
-	printf("%d\n", table[0][4]);
-	printf("%d\n", table[0][5]);
+	ft_ultimate_range(&table, 2, 6);
 	return (0);
 }
